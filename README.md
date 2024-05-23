@@ -54,7 +54,7 @@ The application follows a simple client-server architecture:
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/your-username/to-do-list-app.git
+   git clone https://github.com/HamO001/to-do-list-app.git
 Navigate to the Project Directory
 
 bash
