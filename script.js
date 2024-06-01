@@ -1,65 +1,37 @@
 const inputBox = document.getElementById("input-box");
 const listContainer = document.getElementById("list-container");
 
-function addTask() {
-    if (inputBox.value === '') {
-        alert("Please enter a task!");
-    } else {
-        const taskText = inputBox.value;
-        const li = document.createElement('li');
-        li.textContent = taskText;
-        listContainer.appendChild(li);
-        
-        // Create a delete button for each task
-        const deleteButton = document.createElement("button");
-        deleteButton.textContent = "❌";
-        deleteButton.style.background = "none"; // Set background to none
-        deleteButton.style.border = "none"; // Remove border
-        deleteButton.style.cursor = "pointer"; // Add pointer cursor
-        li.appendChild(deleteButton);
-        
-        // Save tasks to localStorage
-        saveTasks();
-
-        // Clear input box after adding task
-        inputBox.value = "";
+function addTask(){
+    if(inputBox.value === ''){
+        alert("please enter a task!");
     }
-}
-
-// Function to save tasks to localStorage
-function saveTasks() {
-    const tasks = Array.from(listContainer.children).map(task => ({
-        text: task.textContent.trim()
-    }));
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-}
-
-// Function to load tasks from localStorage
-function loadTasks() {
-    const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-    tasks.forEach(task => {
-        const li = document.createElement('li');
-        li.textContent = task.text;
-        
-        // Create a delete button for each task
-        const deleteButton = document.createElement("button");
-        deleteButton.textContent = "❌";
-        deleteButton.style.background = "none"; // Set background to none
-        deleteButton.style.border = "none"; // Remove border
-        deleteButton.style.cursor = "pointer"; // Add pointer cursor
-        li.appendChild(deleteButton);
-        
+    else{
+        let li = document.createElement('li');
+        li.innerHTML = inputBox.value;
         listContainer.appendChild(li);
-    });
+        let span = document.createElement("span");
+        span.innerHTML = "\u00d7";
+        li.appendChild(span);
+    }
+    inputBox.value = "";
+    saveData()   
 }
 
-// Event listener for clicking on delete buttons
-listContainer.addEventListener("click", function (e) {
-    if (e.target.tagName === "BUTTON") {
+listContainer.addEventListener("click", function(e){
+    if(e.target.tagName === "LI"){
+        e.target.classList.toggle("checked");
+        saveData()
+    }
+    else if(e.target.tagName === "SPAN"){
         e.target.parentElement.remove();
-        saveTasks();
+        saveData()
     }
-});
+}, false);
 
-// Load tasks from localStorage when the page loads
-window.addEventListener("DOMContentLoaded", loadTasks);
+function saveData(){
+    localStorage.setItem("data", listContainer.innerHTML);
+}
+function showTask(){
+    listContainer.innerHTML = localStorage.getItem("data");
+}
+showTask();
