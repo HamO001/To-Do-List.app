@@ -9,7 +9,7 @@ function addTask() {
         const li = document.createElement('li');
         li.textContent = taskText;
         listContainer.appendChild(li);
-        
+
         // Save tasks to localStorage
         saveTasks();
 
