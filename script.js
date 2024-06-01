@@ -9,12 +9,7 @@ function addTask() {
         const li = document.createElement('li');
         li.textContent = taskText;
         listContainer.appendChild(li);
-
-        // Create a delete button for each task
-        const deleteButton = document.createElement("button");
-        deleteButton.textContent = "❌";
-        li.appendChild(deleteButton);
-
+        
         // Save tasks to localStorage
         saveTasks();
 
@@ -37,23 +32,14 @@ function loadTasks() {
     tasks.forEach(task => {
         const li = document.createElement('li');
         li.textContent = task.text;
-
-        // Create a delete button for each task
-        const deleteButton = document.createElement("button");
-        deleteButton.textContent = "❌";
-        li.appendChild(deleteButton);
-
         listContainer.appendChild(li);
     });
 }
 
-// Event listener for clicking on tasks or delete buttons
+// Event listener for clicking on tasks
 listContainer.addEventListener("click", function (e) {
     if (e.target.tagName === "LI") {
         e.target.classList.toggle("checked");
-        saveTasks();
-    } else if (e.target.tagName === "BUTTON") {
-        e.target.parentElement.remove();
         saveTasks();
     }
 });
