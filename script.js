@@ -17,6 +17,18 @@ function addTask() {
         inputBox.value = "";
 
         saveData();
+
+        // Add event listener to the new task
+        li.addEventListener("click", toggleTask);
+    }
+}
+
+// Toggle task completion status
+function toggleTask(event) {
+    const task = event.target;
+    if (task.tagName === "LI") {
+        task.classList.toggle("completed");
+        saveData();
     }
 }
 
