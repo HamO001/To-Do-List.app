@@ -9,7 +9,15 @@ function addTask() {
         const li = document.createElement('li');
         li.textContent = taskText;
         listContainer.appendChild(li);
-
+        
+        // Create a delete button for each task
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "❌";
+        deleteButton.style.background = "none"; // Set background to none
+        deleteButton.style.border = "none"; // Remove border
+        deleteButton.style.cursor = "pointer"; // Add pointer cursor
+        li.appendChild(deleteButton);
+        
         // Save tasks to localStorage
         saveTasks();
 
@@ -32,14 +40,23 @@ function loadTasks() {
     tasks.forEach(task => {
         const li = document.createElement('li');
         li.textContent = task.text;
+        
+        // Create a delete button for each task
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "❌";
+        deleteButton.style.background = "none"; // Set background to none
+        deleteButton.style.border = "none"; // Remove border
+        deleteButton.style.cursor = "pointer"; // Add pointer cursor
+        li.appendChild(deleteButton);
+        
         listContainer.appendChild(li);
     });
 }
 
-// Event listener for clicking on tasks
+// Event listener for clicking on delete buttons
 listContainer.addEventListener("click", function (e) {
-    if (e.target.tagName === "LI") {
-        e.target.classList.toggle("checked");
+    if (e.target.tagName === "BUTTON") {
+        e.target.parentElement.remove();
         saveTasks();
     }
 });
