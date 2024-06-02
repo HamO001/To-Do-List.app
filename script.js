@@ -45,5 +45,10 @@ function saveData() {
 
 function showTask() {
     listContainer.innerHTML = localStorage.getItem("data");
+    // Re-add event listeners to the loaded tasks
+    const tasks = listContainer.getElementsByTagName('li');
+    Array.from(tasks).forEach(task => {
+        task.addEventListener("click", toggleTask);
+    });
 }
 showTask();
