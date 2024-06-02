@@ -27,7 +27,7 @@ function addTask() {
 function toggleTask(event) {
     const task = event.target;
     if (task.tagName === "LI") {
-        task.classList.toggle("completed");
+        task.classList.toggle("checked");
         saveData();
     }
 }
