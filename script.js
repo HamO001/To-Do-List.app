@@ -1,25 +1,41 @@
 const inputBox = document.getElementById("input-box");
 const listContainer = document.getElementById("list-container");
+const API_URL = 'https://jsonplaceholder.typicode.com/todos'; // Example mock API
 
 function addTask() {
     if (inputBox.value === '') {
         alert("Please enter a task!");
     } else {
-        let li = document.createElement('li');
-        li.textContent = inputBox.value;
+        const newTask = {
+            title: inputBox.value,
+            completed: false
+        };
 
-        // Create a delete button
-        let span = document.createElement("span");
-        span.textContent = "\u00d7";
-        li.appendChild(span);
+        // POST request to add the task
+        fetch(API_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newTask)
+        })
+        .then(response => response.json())
+        .then(task => {
+            let li = document.createElement('li');
+            li.textContent = task.title;
 
-        listContainer.appendChild(li);
-        inputBox.value = "";
+            // Create a delete button
+            let span = document.createElement("span");
+            span.textContent = "\u00d7";
+            li.appendChild(span);
 
-        saveData();
+            listContainer.appendChild(li);
+            inputBox.value = "";
 
-        // Add event listener to the new task
-        li.addEventListener("click", toggleTask);
+            // Add event listener to the new task
+            li.addEventListener("click", toggleTask);
+        })
+        .catch(error => console.error('Error:', error));
     }
 }
 
@@ -28,27 +44,43 @@ function toggleTask(event) {
     const task = event.target;
     if (task.tagName === "LI") {
         task.classList.toggle("checked");
-        saveData();
+        // Normally, you'd make an API call here to update the task status
     }
 }
 
 listContainer.addEventListener("click", function(e) {
     if (e.target.tagName === "SPAN") {
         e.target.parentElement.remove();
-        saveData();
+        // Normally, you'd make an API call here to delete the task
     }
 });
 
-function saveData() {
-    localStorage.setItem("data", listContainer.innerHTML);
+function showTask() {
+    // GET request to retrieve tasks
+    fetch(API_URL)
+        .then(response => response.json())
+        .then(tasks => {
+            listContainer.innerHTML = '';
+            tasks.forEach(task => {
+                let li = document.createElement('li');
+                li.textContent = task.title;
+
+                if (task.completed) {
+                    li.classList.add('checked');
+                }
+
+                // Create a delete button
+                let span = document.createElement("span");
+                span.textContent = "\u00d7";
+                li.appendChild(span);
+
+                listContainer.appendChild(li);
+
+                // Add event listener to the new task
+                li.addEventListener("click", toggleTask);
+            });
+        })
+        .catch(error => console.error('Error:', error));
 }
 
-function showTask() {
-    listContainer.innerHTML = localStorage.getItem("data");
-    // Re-add event listeners to the loaded tasks
-    const tasks = listContainer.getElementsByTagName('li');
-    Array.from(tasks).forEach(task => {
-        task.addEventListener("click", toggleTask);
-    });
-}
 showTask();
