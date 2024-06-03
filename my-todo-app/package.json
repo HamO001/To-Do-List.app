@@ -2,7 +2,6 @@
   "name": "my-todo-app",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://HamO001.github.io/To-Do list.app",
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.16.7",
     "@testing-library/jest-dom": "^5.17.0",
